@@ -15,14 +15,14 @@ module.exports = function(grunt) {
     var options = this.options({
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       pkg: grunt.config('pkg'),
-      release: false
+      release: ''
     });
 
     var newVersion,
         semver = require('semver'),
         version = options.pkg.version;
 
-    if (options.release) {
+    if ( options.release && /major|minor|patch|build/.test(options.rlease) ) {
       newVersion = semver.inc(version, options.release);
     }
     version = newVersion || version;
