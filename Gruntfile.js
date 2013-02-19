@@ -45,7 +45,9 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('test/fixtures/test-package.json')
       },
       prefix_option: {
-        prefix: 'version[\'"]?( *=|:) *[\'"]',
+        options: {
+          prefix: 'version[\'"]?( *=|:) *[\'"]',
+        },
         src: ['tmp/testing.js', 'tmp/testingb.js'],
       },
       release_option: {
@@ -56,6 +58,15 @@ module.exports = function(grunt) {
           'tmp/123.js',
           'tmp/456.js',
           'tmp/test-package.json'
+        ]
+      },
+      grunt_version: {
+        options: {
+          release: 'major',
+          pkg: grunt.file.readJSON('test/fixtures/test-package-v.json')
+        },
+        src: [
+          'tmp/test-package-v.json'
         ]
       },
     },

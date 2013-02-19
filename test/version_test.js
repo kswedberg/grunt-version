@@ -50,6 +50,16 @@ exports.version = {
 
       test.equal(actual, '0.1.1', 'Increments the version and updates the file.');
     });
+
     test.done();
   },
+  grunt_version: function(test) {
+    test.expect(2);
+    var pkg = grunt.file.readJSON('tmp/test-package-v.json');
+
+    test.equal(pkg.version, '2.0.0', 'Increments package version');
+    test.equal(pkg.devDependencies['grunt-version'], '>=0.1.0', 'Does NOT increment grunt-version');
+    test.done();
+
+  }
 };
