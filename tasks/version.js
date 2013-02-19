@@ -13,7 +13,7 @@ module.exports = function(grunt) {
   grunt.registerMultiTask('version', 'Update version number in all the files.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
-      prefix: 'version[\'"]?\\s*[:=]\\s*[\'"]',
+      prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       pkg: grunt.config('pkg'),
       release: false
     });
