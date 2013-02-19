@@ -22,8 +22,12 @@ module.exports = function(grunt) {
         semver = require('semver'),
         version = options.pkg.version;
 
-    if ( options.release && /major|minor|patch|build/.test(options.rlease) ) {
-      newVersion = semver.inc(version, options.release);
+    if ( options.release ) {
+      if ( !/major|minor|patch|build/.test(options.release) ) {
+        grunt.log.warn(options.release + ' is not a valid semver release. Version will not be incremented');
+      } else {
+        newVersion = semver.inc(version, options.release);
+      }
     }
     version = newVersion || version;
 
