@@ -17,7 +17,7 @@ Once that's done, add this line to your project's Gruntfile:
 grunt.loadNpmTasks('grunt-version');
 ```
 
-If the plugin has been installed correctly, running `grunt --help` at the command line should list the newly-installed plugin's task or tasks. In addition, the plugin should be listed in package.json as a `devDependency`, which ensures that it will be installed whenever the `npm install` command is run.
+If the plugin has been installed correctly, running `grunt --help` at the command line should list the newly-installed plugin's task. In addition, the plugin should be listed in package.json as a `devDependency`, which ensures that it will be installed whenever the `npm install` command is run.
 
 [grunt]: http://gruntjs.com/
 [Getting Started]: https://github.com/gruntjs/grunt/blob/devel/docs/getting_started.md
@@ -43,49 +43,73 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.pkg
+Type: `Object`
+Default value: `grunt.config('pkg')`
+
+An object representing a parsed package file. By default, `grunt-version` will check Gruntfile.js for something like this:
+
+```js
+grunt.initConfig({
+  // ...
+  pkg: grunt.file.readJSON('package.json'),
+  // ...
+});
+```
+
+This object is where your "canonical" version should be set, in a `"version"` property, naturally. The `grunt-version` plugin uses that version (either incremented by the `release` option or not) when it updates version info in other files.
+
+#### options.prefix
 Type: `String`
-Default value: `',  '`
+Default value: `'[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]'`
 
-A string value that is used to do something with whatever.
+A string value representing a regular expression to match text preceding the actual version within the file.
 
-#### options.punctuation
+#### options.release
 Type: `String`
-Default value: `'.'`
+Default value: `''`
 
-A string value that is used to do something else with whatever else.
+A string value representing one of the `semver` release types ('major', 'minor', 'patch', or 'build') used to increment the value of the specified package version.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to update the version in `src/testing.js` and `src/123.js` based on the version property of the object as set in the Gruntfile's `pkg` property. So if the version property of `grunt.config('pkg')` is `"0.1.2"`, has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
 
 ```js
 grunt.initConfig({
   version: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
+    // options: {},
+    defaults: {
+      src: ['src/testing.js', 'src/123.js']
+    }
+  }
 })
 ```
 
 #### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+In this example, custom options are used.
 
 ```js
 grunt.initConfig({
   version: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+      pkg: grunt.file.readJSON('myplugin.jquery.json')
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    myplugin: {
+      options: {
+        prefix: 'var version\\s+=\\s+[\'"]'
+      },
+      src: ['src/testing.js', 'src/123.js']
     },
-  },
-})
+    myplugin_patch: {
+      options: {
+        release: 'patch'
+      },
+      src: ['myplugin.jquery.json', 'src/testing.js', 'src/123.js'],
+    }
+  }
+});
 ```
 
 ## Contributing
