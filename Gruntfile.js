@@ -69,6 +69,15 @@ module.exports = function(grunt) {
           'tmp/test-package-v.json'
         ]
       },
+      patch: {
+        options: {
+          release: 'patch',
+          pkg: grunt.file.readJSON('package.json')
+        },
+        src: [
+          'package.json'
+        ]
+      },
     },
 
     // Unit tests.
@@ -89,7 +98,14 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', ['clean', 'copy', 'version', 'nodeunit' ]);
+  grunt.registerTask('test', [
+    'clean',
+    'copy',
+    'version:prefix_option',
+    'version:release_option',
+    'version:grunt_version',
+    'nodeunit'
+  ]);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
