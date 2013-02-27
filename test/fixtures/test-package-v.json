@@ -1,9 +1,9 @@
 {
   "name": "grunt-version",
-  "0.1.18": "Handle versioning of a project.",
+  "description": "Handle versioning of a project.",
   "version": "1.2.3",
   "homepage": "https://github.com/kswedberg/grunt-version",
-  "0.1.18": {
+  "author": {
     "name": "Karl Swedberg",
     "email": "kswedberg@gmail.com",
     "url": "http://karlswedberg.com/"
