@@ -10,8 +10,37 @@
 
 module.exports = function(grunt) {
 
+  // Test targets to be merged into grunt.config.version
+  var version_tests = {
+    prefix_option: {
+      options: {
+        prefix: 'version[\'"]?( *=|:) *[\'"]',
+      },
+      src: ['tmp/testing.js', 'tmp/testingb.js'],
+    },
+    release_option: {
+      options: {
+        release: 'patch'
+      },
+      src: [
+        'tmp/123.js',
+        'tmp/456.js',
+        'tmp/test-package.json'
+      ]
+    },
+    literal: {
+      options: {
+        release: '3.2.1',
+        pkg: grunt.file.readJSON('test/fixtures/test-package-v.json')
+      },
+      src: [
+        'tmp/test-package-v.json'
+      ]
+    },
+  };
+
   // Project configuration.
-  grunt.initConfig({
+  var gruntConfig = {
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
       all: [
@@ -39,36 +68,12 @@ module.exports = function(grunt) {
         }]
       }
     },
-    // Configuration to be run (and then tested).
+
     version: {
       options: {
         pkg: grunt.file.readJSON('test/fixtures/test-package.json')
       },
-      prefix_option: {
-        options: {
-          prefix: 'version[\'"]?( *=|:) *[\'"]',
-        },
-        src: ['tmp/testing.js', 'tmp/testingb.js'],
-      },
-      release_option: {
-        options: {
-          release: 'patch'
-        },
-        src: [
-          'tmp/123.js',
-          'tmp/456.js',
-          'tmp/test-package.json'
-        ]
-      },
-      grunt_version: {
-        options: {
-          release: 'major',
-          pkg: grunt.file.readJSON('test/fixtures/test-package-v.json')
-        },
-        src: [
-          'tmp/test-package-v.json'
-        ]
-      },
+      // Not for testing
       patch: {
         options: {
           release: 'patch',
@@ -85,7 +90,11 @@ module.exports = function(grunt) {
       tests: ['test/*_test.js'],
     },
 
-  });
+  };
+
+  grunt.util._.extend(gruntConfig.version, version_tests);
+
+  grunt.initConfig( gruntConfig );
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
@@ -103,7 +112,7 @@ module.exports = function(grunt) {
     'copy',
     'version:prefix_option',
     'version:release_option',
-    'version:grunt_version',
+    'version:literal',
     'nodeunit'
   ]);
 
