@@ -53,6 +53,20 @@ exports.version = {
 
     test.done();
   },
+  minor: function(test) {
+    var files = grunt.config('version.minor.src');
+    test.expect(files.length);
+
+    files.forEach(function(file) {
+      var content = grunt.file.read(file);
+      var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d)/.exec(content);
+      actual = actual && actual[1];
+
+      test.equal(actual, '1.3.0', 'Increments the version and updates the file.');
+    });
+
+    test.done();
+  },
   literal: function(test) {
     test.expect(2);
     var pkg = grunt.file.readJSON('tmp/test-package-v.json');

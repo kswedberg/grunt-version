@@ -18,7 +18,11 @@ module.exports = function(grunt) {
       pkg: grunt.config('pkg'),
       release: ''
     });
-console.log(this.args);
+
+    if (typeof options.pkg === 'string') {
+      options.pkg = grunt.file.readJSON(options.pkg);
+    }
+
     var newVersion,
         release = this.args && this.args[0] || options.release,
         semver = require('semver'),

@@ -28,6 +28,13 @@ module.exports = function(grunt) {
         'tmp/test-package.json'
       ]
     },
+    minor: {
+      options: {
+        release: 'minor',
+        pkg: 'test/fixtures/test-pkg-vc.json'
+      },
+      src: ['tmp/test-pkg-vc.json', 'tmp/testingc.js']
+    },
     literal: {
       options: {
         release: '3.2.1',
@@ -113,6 +120,7 @@ module.exports = function(grunt) {
     'version:prefix_option',
     'version:release_option',
     'version:literal',
+    'version:minor',
     'nodeunit'
   ]);
 
