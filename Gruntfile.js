@@ -18,6 +18,12 @@ module.exports = function(grunt) {
       },
       src: ['tmp/testing.js', 'tmp/testingb.js'],
     },
+    prefix_override_option: {
+      options: {
+        prefix: 'rsion[\'"]?( *=|:) *[\'"]',
+      },
+      src: ['tmp/testing.js', 'tmp/testingb.js'],
+    },
     release_option: {
       options: {
         release: 'patch'
@@ -118,6 +124,7 @@ module.exports = function(grunt) {
     'clean',
     'copy',
     'version:prefix_option',
+    'version:prefix_override_option',
     'version:release_option',
     'version:literal',
     'version:minor',

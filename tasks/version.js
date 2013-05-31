@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       replace: '[0-9a-zA-Z\\-_\\.]+',
       pkg: grunt.config('pkg'),
       release: ''
-    });
+    }, this.data);
 
     if (typeof options.pkg === 'string') {
       options.pkg = grunt.file.readJSON(options.pkg);
