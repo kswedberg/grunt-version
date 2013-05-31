@@ -39,6 +39,11 @@ exports.version = {
     });
     test.done();
   },
+  prefix_override_option: function(test) {
+    var config = grunt.config('version.prefix_override_option');
+    test.equal(config.options.prefix, 'rsion[\'"]?( *=|:) *[\'"]');
+    test.done();
+  },
   release_option: function(test) {
     var files = grunt.config('version.release_option.src');
     test.expect(files.length);
