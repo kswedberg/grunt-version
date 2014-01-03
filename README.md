@@ -83,14 +83,14 @@ A string value representing one of the **semver 2.x** release types (`'major'`, 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to update the version in `src/testing.js` and `src/123.js` based on the version property of the object as set in the Gruntfile's `pkg` property. So if the version property of `grunt.config('pkg')` is `"0.1.2"`, has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to update the version in `src/testing.js` based on the `version` property set in a `package.json` file located in the same directory as your `Gruntfile.js`. So if the version property in `package.json` is `"0.1.2"`, and the `src/testing.js` file has the content `var version = '0';`, that content would change to `var version = '0.1.2';`
 
 ```js
 grunt.initConfig({
   version: {
     // options: {},
     defaults: {
-      src: ['src/testing.js', 'src/123.js']
+      src: ['src/testing.js']
     }
   }
 })
