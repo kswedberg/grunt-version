@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     // Merge task-specific and/or target-specific options with these defaults.
     var options = this.options({
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
-      replace: '[0-9a-zA-Z\\-_\\.]+',
+      replace: '[0-9a-zA-Z\\-_\\+\\.]+',
       pkg: 'package.json',
       release: ''
     });
