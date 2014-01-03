@@ -15,7 +15,7 @@ module.exports = function(grunt) {
     var options = this.options({
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       replace: '[0-9a-zA-Z\\-_\\.]+',
-      pkg: grunt.config('pkg'),
+      pkg: 'package.json',
       release: ''
     });
 
@@ -27,13 +27,13 @@ module.exports = function(grunt) {
         release = this.args && this.args[0] || options.release,
         semver = require('semver'),
         version = options.pkg.version,
-        bump = /major|minor|patch|build/.test(release),
-        literal = /(?:\d\.){2}\d[0-9a-zA-Z\-_\.]*/.test(release);
+        bump = /major|minor|patch|prerelease/.test(release),
+        literal = semver.valid(release);
 
-    if (bump) {
+    if ( bump && semver.valid(version) ) {
       newVersion = semver.inc(version, release);
     } else if (literal) {
-      newVersion = release;
+      newVersion = literal;
     } else if (release) {
       grunt.log.warn(release + ' must be a valid release name or semver version. Version will not be updated.');
     }
