@@ -28,6 +28,13 @@ module.exports = function(grunt) {
         'tmp/test-package.json'
       ]
     },
+    prerelease: {
+      options: {
+        release: 'prerelease',
+        pkg: 'test/fixtures/test-pkg-pre.json'
+      },
+      src: 'tmp/test-pkg-pre.json'
+    },
     minor: {
       options: {
         release: 'minor',
@@ -119,6 +126,7 @@ module.exports = function(grunt) {
     'copy',
     'version:prefix_option',
     'version:release_option',
+    'version:prerelease',
     'version:literal',
     'version:minor',
     'nodeunit'

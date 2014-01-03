@@ -53,6 +53,18 @@ exports.version = {
 
     test.done();
   },
+  prerelease: function(test) {
+
+    var file = grunt.config('version.prerelease.src');
+    var content = grunt.file.read(file);
+    var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d[\-\+a-zA-Z0-9\.]*)/.exec(content);
+    actual = actual && actual[1];
+
+    test.expect(1);
+    test.equal(actual, '1.2.3-alpha.0', 'Increments the version and updates the file.');
+
+    test.done();
+  },
   minor: function(test) {
     var files = grunt.config('version.minor.src');
     test.expect(files.length);
