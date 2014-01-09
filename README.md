@@ -3,7 +3,7 @@
 [Grunt][grunt] task to handle versioning of a project.
 
 ## Getting Started
-_Requires grunt 0.4. If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide._
+_Requires grunt >=0.4.2. If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide._
 
 From the same directory as your project's [Gruntfile][Getting Started] and [package.json][], install this plugin by running the following command:
 
@@ -44,20 +44,13 @@ grunt.initConfig({
 ### Options
 
 #### options.pkg
-Type: `Object`
-Default value: `grunt.config('pkg')`
+Type: `String|Object`
+Default value: `'package.json'`
 
-An object representing a parsed package file. By default, `grunt-version` will check Gruntfile.js for something like this:
+A string representing a package file's path relative to Gruntfile.js, or an object representing a parsed package file.
 
-```js
-grunt.initConfig({
-  // ...
-  pkg: grunt.file.readJSON('package.json'),
-  // ...
-});
-```
+This package file is where your "canonical" version should be set, in a `"version"` property. The `grunt-version` plugin uses that version (either incremented by the `release` option or not) when it updates version info in other files.
 
-This object is where your "canonical" version should be set, in a `"version"` property, naturally. The `grunt-version` plugin uses that version (either incremented by the `release` option or not) when it updates version info in other files.
 
 #### options.prefix
 Type: `String`
@@ -65,23 +58,39 @@ Default value: `'[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]'`
 
 A string value representing a regular expression to match text preceding the actual version within the file.
 
+If you're following one of the popular documentation syntaxes in your js files, you might want to set the option like so:
+
+```js
+grunt.initConfig({
+  version: {
+    somejs: {
+      options: {
+        prefix: '@version\\s*'
+      },
+      src: ['js/*.js']
+    },
+  },
+})
+```
+
+
 #### options.release
 Type: `String`
 Default value: `''`
 
-A string value representing one of the `semver` release types ('major', 'minor', 'patch', or 'build') used to increment the value of the specified package version.
+A string value representing one of the **semver 2.x** release types (`'major'`, `'minor'`, `'patch'`, or `'prerelease'`) used to increment the value of the specified package version. See [node-semver](https://github.com/isaacs/node-semver) for more information about release incrementing.
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to update the version in `src/testing.js` and `src/123.js` based on the version property of the object as set in the Gruntfile's `pkg` property. So if the version property of `grunt.config('pkg')` is `"0.1.2"`, has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to update the version in `src/testing.js` based on the `version` property set in a `package.json` file located in the same directory as your `Gruntfile.js`. So if the version property in `package.json` is `"0.1.2"`, and the `src/testing.js` file has the content `var version = '0';`, that content would change to `var version = '0.1.2';`
 
 ```js
 grunt.initConfig({
   version: {
     // options: {},
     defaults: {
-      src: ['src/testing.js', 'src/123.js']
+      src: ['src/testing.js']
     }
   }
 })
@@ -94,7 +103,7 @@ In this example, custom options are used.
 grunt.initConfig({
   version: {
     options: {
-      pkg: grunt.file.readJSON('myplugin.jquery.json')
+      pkg: 'myplugin.jquery.json'
     },
     myplugin: {
       options: {

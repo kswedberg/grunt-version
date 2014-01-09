@@ -1,4 +1,5 @@
 'use strict';
+var semver = require('semver');
 
 var grunt = require('grunt');
 
@@ -39,8 +40,8 @@ exports.version = {
     });
     test.done();
   },
-  release_option: function(test) {
-    var files = grunt.config('version.release_option.src');
+  patch: function(test) {
+    var files = grunt.config('version.patch.src');
     test.expect(files.length);
 
     files.forEach(function(file) {
@@ -50,6 +51,18 @@ exports.version = {
 
       test.equal(actual, '0.1.1', 'Increments the version and updates the file.');
     });
+
+    test.done();
+  },
+  prerelease: function(test) {
+
+    var file = grunt.config('version.prerelease.src');
+    var content = grunt.file.read(file);
+    var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d[\-\+a-zA-Z0-9\.]*)/.exec(content);
+    actual = actual && actual[1];
+
+    test.expect(1);
+    test.equal(actual, '1.2.3-alpha.0', 'Increments the version and updates the file.');
 
     test.done();
   },
@@ -74,6 +87,19 @@ exports.version = {
     test.equal(pkg.version, '3.2.1', 'Sets package version to literal value');
     test.equal(pkg.devDependencies['grunt-version'], '>=0.1.0', 'Does NOT increment grunt-version');
     test.done();
+  },
+  prerelease_build: function(test) {
+    var files = grunt.config('version.prerelease_build.src');
+    test.expect(files.length);
 
+    files.forEach(function(file) {
+      var content = grunt.file.read(file);
+      var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+      actual = actual && actual[1];
+
+      test.equal(actual, '1.0.0-beta.2', 'Increments the version and updates the file.');
+    });
+
+    test.done();
   }
 };

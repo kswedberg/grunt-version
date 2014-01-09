@@ -18,7 +18,14 @@ module.exports = function(grunt) {
       },
       src: ['tmp/testing.js', 'tmp/testingb.js'],
     },
-    release_option: {
+    prerelease: {
+      options: {
+        release: 'prerelease',
+        pkg: 'test/fixtures/test-pkg-pre.json'
+      },
+      src: 'tmp/test-pkg-pre.json'
+    },
+    patch: {
       options: {
         release: 'patch'
       },
@@ -26,6 +33,16 @@ module.exports = function(grunt) {
         'tmp/123.js',
         'tmp/456.js',
         'tmp/test-package.json'
+      ]
+    },
+    prerelease_build: {
+      options: {
+        release: 'prerelease',
+        pkg: 'test/fixtures/test-pkg-prerelease_build.json'
+      },
+      src: [
+        'tmp/test-pkg-prerelease_build.json',
+        'tmp/test-prerelease_build.js'
       ]
     },
     minor: {
@@ -118,9 +135,11 @@ module.exports = function(grunt) {
     'clean',
     'copy',
     'version:prefix_option',
-    'version:release_option',
+    'version:patch',
+    'version:prerelease',
     'version:literal',
     'version:minor',
+    'version:prerelease_build',
     'nodeunit'
   ]);
 
