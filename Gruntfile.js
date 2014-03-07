@@ -61,6 +61,27 @@ module.exports = function(grunt) {
         'tmp/test-package-v.json'
       ]
     },
+    ignore_default: {
+      options: {
+          pkg: grunt.file.readJSON('test/fixtures/test-package.json')
+      },
+      src: [
+        'tmp/456.js',
+        'tmp/node_modules/test-package.json'
+      ]
+    },
+    ignore_list: {
+      options: {
+        pkg: grunt.file.readJSON('test/fixtures/test-package.json'),
+        release: 'minor',
+        ignore: ['ignored_dir', 'node_modules']
+      },
+      src: [
+        'tmp/456.js',
+        'tmp/node_modules/test-package.json',
+        'tmp/ignored_dir/test-package.json',
+      ]
+    }
   };
 
   // Project configuration.
@@ -84,11 +105,10 @@ module.exports = function(grunt) {
     copy: {
       tests: {
         files: [{
-          src: ['test/fixtures/*'],
+          cwd: 'test/fixtures/',
+          src: ['**'],
           dest: 'tmp/',
-          filter: 'isFile',
-          expand: true,
-          flatten: true
+          expand: true
         }]
       }
     },
