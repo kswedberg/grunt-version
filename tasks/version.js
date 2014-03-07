@@ -16,7 +16,8 @@ module.exports = function(grunt) {
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       replace: '[0-9a-zA-Z\\-_\\+\\.]+',
       pkg: 'package.json',
-      release: ''
+      release: '',
+      ignore: ['node_modules']
     });
 
     if (typeof options.pkg === 'string') {
@@ -40,30 +41,44 @@ module.exports = function(grunt) {
 
     version = newVersion || version;
 
-    this.filesSrc.forEach(function(filepath) {
-      // Warn if a source file/pattern was invalid.
-      if (!grunt.file.exists(filepath)) {
-        grunt.log.error('Source file "' + filepath + '" not found.');
-        return '';
+    function doIgnore(filepath) {
+      for (var i in options.ignore) {
+        if (filepath.indexOf(options.ignore[i]) !== -1) {
+          return options.ignore[i];
+        }
       }
-      // Read file source.
-      var pattern = new RegExp('(' + options.prefix + ')(' + options.replace + ')', 'g'),
+      return null;
+    }
+
+    this.filesSrc.forEach(function(filepath) {
+      var ignored = doIgnore(filepath);
+      if (ignored) {
+        grunt.log.subhead('Ignore '+ignored+' packages');
+        grunt.log.writeln('Path: ' + filepath);
+      } else {
+        // Warn if a source file/pattern was invalid.
+        if (!grunt.file.exists(filepath)) {
+          grunt.log.error('Source file "' + filepath + '" not found.');
+          return '';
+        }
+        // Read file source.
+        var pattern = new RegExp('(' + options.prefix + ')(' + options.replace + ')', 'g'),
           file = grunt.file.read(filepath),
           newfile = file.replace(pattern, '$1' + version),
           matches = pattern.exec(file);
 
-      if (!matches) {
-        grunt.log.subhead('Pattern not found in file');
-        grunt.log.writeln('Path: ' + filepath);
-        grunt.log.writeln('Pattern: ' + pattern);
-      } else {
-        grunt.log.subhead('File updated');
-        grunt.log.writeln('Path: ' + filepath);
-        grunt.log.writeln('Old version: ' + matches.pop() + '. New version: ' + version + '.');
+        if (!matches) {
+          grunt.log.subhead('Pattern not found in file');
+          grunt.log.writeln('Path: ' + filepath);
+          grunt.log.writeln('Pattern: ' + pattern);
+        } else {
+          grunt.log.subhead('File updated');
+          grunt.log.writeln('Path: ' + filepath);
+          grunt.log.writeln('Old version: ' + matches.pop() + '. New version: ' + version + '.');
+        }
+        grunt.file.write(filepath, newfile);
       }
-      grunt.file.write(filepath, newfile);
     });
-
   });
 
 };
