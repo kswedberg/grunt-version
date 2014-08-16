@@ -75,9 +75,15 @@ exports.version = {
       var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d)/.exec(content);
       actual = actual && actual[1];
 
-      test.equal(actual, '1.3.0', 'Increments the version and updates the file.');
+      test.equal(actual, '1.3.0', 'Increments the minor version and updates the file.');
     });
 
+    test.done();
+  },
+  minorwitharg: function(test) {
+    test.expect(1);
+    var pkg = grunt.file.readJSON('tmp/test-pkg-arg.json');
+    test.equal(pkg.version, '1.3.0', 'Increments the minor version and updates the file.');
     test.done();
   },
   literal: function(test) {

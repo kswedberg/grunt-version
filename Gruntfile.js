@@ -35,6 +35,12 @@ module.exports = function(grunt) {
         'tmp/test-package.json'
       ]
     },
+    minorwitharg: {
+      options: {
+        pkg: 'tmp/test-pkg-arg.json'
+      },
+      src: 'tmp/test-pkg-arg.json'
+    },
     prerelease_build: {
       options: {
         release: 'prerelease',
@@ -139,6 +145,7 @@ module.exports = function(grunt) {
     'version:prerelease',
     'version:literal',
     'version:minor',
+    'version:minorwitharg:minor',
     'version:prerelease_build',
     'nodeunit'
   ]);

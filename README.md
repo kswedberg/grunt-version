@@ -96,6 +96,34 @@ grunt.initConfig({
 })
 ```
 
+#### Auto-incrementing based on task argument
+
+It can be a hassle to add a grunt target for every release type you might want to use. Fortunately, you can avoid that. Simply provide at least one target that lists the files you want to update:
+
+```js
+grunt.initConfig({
+  version: {
+    project: {
+      src: ['package.json', 'bower.json', 'myplugin.jquery.json']
+    }
+  }
+});
+```
+
+Then, from the command line (designated by the `$`, so don't include that if you're copying the code below), you can bump the patch version, for example:
+
+```bash
+$  grunt version:project:patch
+```
+
+You can also skip the target name:
+
+```bash
+$  grunt version::minor
+```
+
+In this example, it bumps the minor version in the files listed within the "project" target, even though "project" is not identified explicitly between the two `:`. Note that if the version config includes more than one target, the example would update the files listed within *every* target.
+
 #### Custom Options
 In this example, custom options are used.
 
@@ -124,5 +152,3 @@ grunt.initConfig({
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][].
 
-## Release History
-_(Nothing yet)_
