@@ -19,6 +19,21 @@ module.exports = function(grunt) {
       release: ''
     });
 
+
+    var log = function log(type, info) {
+      var msgs = {
+        notFound: [ 'Pattern not found in file', 'Pattern: ' + info.pattern ],
+        skipped: [ 'File skipped.',  'Current version and new version are equal: ' + info.version ],
+        updated: [
+          'File updated.',
+          'Old version: ' + info.fileVersion + '. New version: ' + info.version + '.'
+        ]
+      };
+      grunt.log.subhead( msgs[type][0] );
+      grunt.log.writeln('Path: ' + info.filePath);
+      grunt.log.writeln( msgs[type][1] );
+    };
+
     if (typeof options.pkg === 'string') {
       options.pkg = grunt.file.readJSON(options.pkg);
     }
@@ -47,21 +62,28 @@ module.exports = function(grunt) {
         return '';
       }
       // Read file source.
-      var pattern = new RegExp('(' + options.prefix + ')(' + options.replace + ')', 'g'),
-          file = grunt.file.read(filepath),
-          newfile = file.replace(pattern, '$1' + version),
-          matches = pattern.exec(file);
+      var fileInfo = {
+        file: grunt.file.read(filepath),
+        filePath: filepath,
+        version: version,
+        pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', 'g')
+      };
+      var newfile,
+          matches = fileInfo.pattern.exec(fileInfo.file);
 
       if (!matches) {
-        grunt.log.subhead('Pattern not found in file');
-        grunt.log.writeln('Path: ' + filepath);
-        grunt.log.writeln('Pattern: ' + pattern);
+        log('notFound', fileInfo);
       } else {
-        grunt.log.subhead('File updated');
-        grunt.log.writeln('Path: ' + filepath);
-        grunt.log.writeln('Old version: ' + matches.pop() + '. New version: ' + version + '.');
+        fileInfo.fileVersion = matches.pop();
+
+        if (fileInfo.fileVersion === version) {
+          log('skipped', fileInfo);
+        } else {
+          log('updated', fileInfo);
+          newfile = fileInfo.file.replace(fileInfo.pattern, '$1' + version);
+          grunt.file.write(filepath, newfile);
+        }
       }
-      grunt.file.write(filepath, newfile);
     });
 
   });

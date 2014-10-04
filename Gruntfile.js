@@ -103,16 +103,15 @@ module.exports = function(grunt) {
       options: {
         pkg: grunt.file.readJSON('test/fixtures/test-package.json')
       },
-      // Not for testing
-      patch: {
+      // Not for testing. Run with grunt version:v:[release]
+      v: {
         options: {
-          release: 'patch',
-          pkg: grunt.file.readJSON('package.json')
+          pkg: 'package.json'
         },
         src: [
           'package.json'
         ]
-      },
+      }
     },
 
     // Unit tests.
