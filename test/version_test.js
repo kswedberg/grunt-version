@@ -86,6 +86,35 @@ exports.version = {
     test.equal(pkg.version, '1.3.0', 'Increments the minor version and updates the file.');
     test.done();
   },
+  excludeFiles: function(test) {
+    test.expect(4);
+    var patchedFiles = [
+      'tmp/exclude-some/123.js',
+      'tmp/exclude-some/testing.js'
+    ];
+    var excludedFiles = [
+      'tmp/exclude-some/no-123.js',
+      'tmp/exclude-some/no-testing.js'
+    ];
+
+    patchedFiles.forEach(function(file) {
+      var content = grunt.file.read(file);
+      var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+      actual = actual && actual[1];
+
+      test.equal(actual, '1.2.4', 'Increments the version and updates the file.');
+    });
+
+    excludedFiles.forEach(function(file) {
+      var content = grunt.file.read(file);
+      var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+      actual = actual && actual[1];
+
+      test.equal(actual, '1.2.3', 'Ignores the file; version remains the same.');
+    });
+
+    test.done();
+  },
   literal: function(test) {
     test.expect(2);
     var pkg = grunt.file.readJSON('tmp/test-package-v.json');

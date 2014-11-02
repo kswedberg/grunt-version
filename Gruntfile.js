@@ -67,6 +67,16 @@ module.exports = function(grunt) {
         'tmp/test-package-v.json'
       ]
     },
+    excludeFiles: {
+      options: {
+        pkg: grunt.file.readJSON('test/fixtures/test-package-v.json'),
+        release: 'patch',
+      },
+      src: [
+        'tmp/exclude-some/*.js',
+        '!tmp/exclude-some/no-*.js'
+      ]
+    }
   };
 
   // Project configuration.
@@ -90,11 +100,11 @@ module.exports = function(grunt) {
     copy: {
       tests: {
         files: [{
-          src: ['test/fixtures/*'],
+          cwd: 'test/fixtures/',
+          src: ['**'],
           dest: 'tmp/',
           filter: 'isFile',
-          expand: true,
-          flatten: true
+          expand: true
         }]
       }
     },
@@ -136,18 +146,22 @@ module.exports = function(grunt) {
 
   // Whenever the "test" task is run, first clean the "tmp" dir, then run this
   // plugin's task(s), then test the result.
-  grunt.registerTask('test', [
+
+  var testTasks = [
     'clean',
-    'copy',
-    'version:prefix_option',
-    'version:patch',
-    'version:prerelease',
-    'version:literal',
-    'version:minor',
-    'version:minorwitharg:minor',
-    'version:prerelease_build',
-    'nodeunit'
-  ]);
+    'copy'
+  ],
+  testTarget;
+  for (var el in version_tests) {
+    if (el === 'minorwitharg') {
+      el += ':minor';
+    }
+    testTasks.push('version:' + el);
+  }
+
+  testTasks.push('nodeunit');
+
+  grunt.registerTask('test', testTasks);
 
   // By default, lint and run all tests.
   grunt.registerTask('default', ['jshint', 'test']);
