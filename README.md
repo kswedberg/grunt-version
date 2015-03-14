@@ -73,6 +73,11 @@ grunt.initConfig({
 })
 ```
 
+#### options.replace
+Type: `String`
+Default value: `'[0-9a-zA-Z\\-_\\+\\.]+'`
+
+A string value representing a regular expression to match the version number (immediately following the `options.prefix` text).
 
 #### options.release
 Type: `String`
