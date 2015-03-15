@@ -2,7 +2,7 @@
  * grunt-version
  * https://github.com/kswedberg/grunt-version
  *
- * Copyright (c) 2013 Karl Swedberg
+ * Copyright (c) 2015 Karl Swedberg
  * Licensed under the MIT license.
  */
 
@@ -11,8 +11,8 @@
 module.exports = function(grunt) {
 
   // Test targets to be merged into grunt.config.version
-  var version_tests = {
-    prefix_option: {
+  var versionTests = {
+    prefixOption: {
       options: {
         prefix: 'version[\'"]?( *=|:) *[\'"]',
       },
@@ -41,7 +41,7 @@ module.exports = function(grunt) {
       },
       src: 'tmp/test-pkg-arg.json'
     },
-    prerelease_build: {
+    prereleaseBuild: {
       options: {
         release: 'prerelease',
         pkg: 'test/fixtures/test-pkg-prerelease_build.json'
@@ -121,17 +121,21 @@ module.exports = function(grunt) {
         src: [
           'package.json'
         ]
+      },
+      allFiles: {
+
       }
     },
 
     // Unit tests.
     nodeunit: {
-      tests: ['test/*_test.js'],
+      tests: ['test/version-test.js'],
+      allFiles: ['test/version-all-test.js']
     },
 
   };
 
-  grunt.util._.extend(gruntConfig.version, version_tests);
+  grunt.util._.extend(gruntConfig.version, versionTests);
 
   grunt.initConfig( gruntConfig );
 
@@ -150,17 +154,34 @@ module.exports = function(grunt) {
   var testTasks = [
     'clean',
     'copy'
-  ],
-  testTarget;
-  for (var el in version_tests) {
+  ];
+  var testTarget;
+
+  for (var el in versionTests) {
     if (el === 'minorwitharg') {
       el += ':minor';
     }
     testTasks.push('version:' + el);
   }
 
-  testTasks.push('nodeunit');
+  testTasks.push('nodeunit:tests');
 
+  grunt.registerTask('testAll', 'test all targets using version::release', function() {
+    var versionConfig = require('./test/fixtures/config-version-all.js');
+    var tasks = [
+      'clean',
+      'copy',
+      'version::minor',
+      'nodeunit:allFiles'
+    ];
+
+    grunt.config.set('version', versionConfig);
+
+    grunt.task.run(tasks);
+
+  });
+
+  testTasks.push('testAll');
   grunt.registerTask('test', testTasks);
 
   // By default, lint and run all tests.

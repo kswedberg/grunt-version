@@ -27,8 +27,8 @@ exports.version = {
   setUp: function(done) {
     done();
   },
-  prefix_option: function(test) {
-    var files = grunt.config('version.prefix_option.src');
+  prefixOption: function(test) {
+    var files = grunt.config('version.prefixOption.src');
     test.expect(files.length);
 
     files.forEach(function(file) {
@@ -123,8 +123,8 @@ exports.version = {
     test.equal(pkg.devDependencies['grunt-version'], '>=0.1.0', 'Does NOT increment grunt-version');
     test.done();
   },
-  prerelease_build: function(test) {
-    var files = grunt.config('version.prerelease_build.src');
+  prereleaseBuild: function(test) {
+    var files = grunt.config('version.prereleaseBuild.src');
     test.expect(files.length);
 
     files.forEach(function(file) {
