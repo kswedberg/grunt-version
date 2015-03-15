@@ -2,7 +2,7 @@
  * grunt-version
  * https://github.com/kswedberg/grunt-version
  *
- * Copyright (c) 2013 Karl Swedberg
+ * Copyright (c) 2015 Karl Swedberg
  * Licensed under the MIT license.
  */
 
@@ -10,8 +10,38 @@
 
 module.exports = function(grunt) {
 
+  var getVersion = (function getVersion() {
+
+    var pkgs = [];
+
+    return function(opts) {
+      var pkg = opts.pkg;
+      var i = pkgs.length - 1;
+
+      // If pkg is the same string as previous target, and we're looping through targets,
+      // make sure we're sticking with previous version so we don't keep incrementing subsequent targets
+      if (typeof pkg === 'string') {
+        if ( pkgs[i] && pkg === pkgs[i].pkg && /^version::/.test(process.argv[2]) ) {
+          pkg = pkgs[i];
+        } else {
+          pkg = grunt.file.readJSON(pkg);
+        }
+      }
+
+      pkgs.push({
+        // Store the pre-modified pkg, but the modified version
+        pkg: opts.pkg,
+        version: pkg.version
+      });
+
+      return pkg.version;
+    };
+  })();
+
+  // THE VERSION TASK
   grunt.registerMultiTask('version', 'Update version number in all the files.', function() {
     // Merge task-specific and/or target-specific options with these defaults.
+
     var options = this.options({
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       replace: '[0-9a-zA-Z\\-_\\+\\.]+',
@@ -34,14 +64,10 @@ module.exports = function(grunt) {
       grunt.log.writeln( msgs[type][1] );
     };
 
-    if (typeof options.pkg === 'string') {
-      options.pkg = grunt.file.readJSON(options.pkg);
-    }
-
     var newVersion,
+        version = getVersion(options),
         release = this.args && this.args[0] || options.release,
         semver = require('semver'),
-        version = options.pkg.version,
         bump = /major|minor|patch|prerelease/.test(release),
         literal = semver.valid(release);
 
