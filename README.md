@@ -79,6 +79,12 @@ Default value: `'[0-9a-zA-Z\\-_\\+\\.]+'`
 
 A string value representing a regular expression to match the version number (immediately following the `options.prefix` text).
 
+#### options.flags
+Type: `String`
+Default value: `'g'`
+
+A string value representing one or more regular expression flags (e.g. `'i'`, `'ig'`).
+
 #### options.release
 Type: `String`
 Default value: `''`

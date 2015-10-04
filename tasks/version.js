@@ -46,7 +46,8 @@ module.exports = function(grunt) {
       prefix: '[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]',
       replace: '[0-9a-zA-Z\\-_\\+\\.]+',
       pkg: 'package.json',
-      release: ''
+      release: '',
+      flags: 'g'
     });
 
 
@@ -87,13 +88,15 @@ module.exports = function(grunt) {
         grunt.log.error('Source file "' + filepath + '" not found.');
         return '';
       }
+
       // Read file source.
       var fileInfo = {
         file: grunt.file.read(filepath),
         filePath: filepath,
         version: version,
-        pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', 'g')
+        pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', options.flags)
       };
+
       var newfile,
           matches = fileInfo.pattern.exec(fileInfo.file);
 

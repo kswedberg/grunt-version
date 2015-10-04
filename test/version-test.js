@@ -136,5 +136,16 @@ exports.version = {
     });
 
     test.done();
+  },
+  flags: function(test) {
+    var file = grunt.config('version.flags.src');
+    var content = grunt.file.read(file);
+    var actual = /vErSIoN = '(\d\.\d\.\d)/.exec(content);
+    actual = actual && actual[1];
+
+    test.expect(1);
+    test.equal(actual, '1.2.4', 'Case insensitive version update and updates the file');
+
+    test.done();
   }
 };

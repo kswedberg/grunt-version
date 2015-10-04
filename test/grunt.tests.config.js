@@ -66,15 +66,15 @@ module.exports = {
       '!tmp/exclude-some/no-*.js'
     ]
   },
-  stableTag: {
+  flags: {
     options: {
-      pkg: 'tmp/test-pkg-siam.json',
       release: 'patch',
-      prefix: 'Stable tag:\\s+'
+      pkg: 'tmp/test-pkg-insensitive.json',
+      flags: 'i'
     },
     src: [
-      'tmp/siam-readme.txt'
+      'tmp/123-insensitive.js'
     ]
-  },
+  }
 
 };
