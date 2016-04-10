@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 
   grunt.util._.extend(gruntConfig.version, versionTests);
 
-  grunt.initConfig( gruntConfig );
+  grunt.initConfig(gruntConfig);
 
   // Actually load this plugin's task(s).
   grunt.loadTasks('tasks');
