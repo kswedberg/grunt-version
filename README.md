@@ -91,7 +91,7 @@ Default value: `''`
 
 A string value representing one of the **semver 2.x** release types (`'major'`, `'minor'`, `'patch'`, or `'prerelease'`) used to increment the value of the specified package version. See [node-semver](https://github.com/isaacs/node-semver) for more information about release incrementing. The value may also be a literal semver-valid release (for example, '1.3.2').
 
-#### options.prereleaseidentifier
+#### options.prereleaseIdentifier
 Type: `String`
 Default value: `''`
 
