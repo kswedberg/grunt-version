@@ -73,7 +73,11 @@ module.exports = function(grunt) {
         literal = semver.valid(release);
 
     if ( bump && semver.valid(version) ) {
-      newVersion = semver.inc(version, release);
+      if (typeof options.prereleaseidentifier !== 'undefined') {
+        newVersion = semver.inc(version, release, options.prereleaseIdentifier);
+      } else {
+        newVersion = semver.inc(version, release);
+      }
     } else if (literal) {
       newVersion = literal;
     } else if (release) {

@@ -91,6 +91,12 @@ Default value: `''`
 
 A string value representing one of the **semver 2.x** release types (`'major'`, `'minor'`, `'patch'`, or `'prerelease'`) used to increment the value of the specified package version. See [node-semver](https://github.com/isaacs/node-semver) for more information about release incrementing. The value may also be a literal semver-valid release (for example, '1.3.2').
 
+#### options.prereleaseIdentifier
+Type: `String`
+Default value: `''`
+
+A string a prefix for the prerelease version (e.g., `'dev'`,`'alpha'`,`'beta'`). Setting this value to `dev` would prerelease-increment a version of 1.2.3 to 1.2.3-dev.0 instead of 1.2.3-0.
+
 ### Usage Examples
 
 #### Default Options
