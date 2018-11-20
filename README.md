@@ -95,7 +95,13 @@ A string value representing one of the **semver 2.x** release types (`'major'`, 
 Type: `String`
 Default value: `''`
 
-A string a prefix for the prerelease version (e.g., `'dev'`,`'alpha'`,`'beta'`). Setting this value to `dev` would prerelease-increment a version of 1.2.3 to 1.2.3-dev.0 instead of 1.2.3-0.
+A string value representing a prefix for the prerelease version (e.g., `'dev'`,`'alpha'`,`'beta'`). Setting this value to `dev` would prerelease-increment a version of 1.2.3 to 1.2.3-dev.0 instead of 1.2.3-0.
+
+#### options.encoding
+Type: `String`
+Default value: `'utf8'`
+
+A string value representing the encoding to be used for reading and writing file contents.
 
 ### Usage Examples
 
@@ -168,4 +174,3 @@ grunt.initConfig({
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][].
-

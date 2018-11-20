@@ -24,7 +24,7 @@ module.exports = function(grunt) {
         if ( pkgs[i] && pkg === pkgs[i].pkg && /^version::/.test(process.argv[2]) ) {
           pkg = pkgs[i];
         } else {
-          pkg = grunt.file.readJSON(pkg);
+          pkg = grunt.file.readJSON(pkg, {encoding: opts.encoding});
         }
       }
 
@@ -47,9 +47,11 @@ module.exports = function(grunt) {
       replace: '[0-9a-zA-Z\\-_\\+\\.]+',
       pkg: 'package.json',
       release: '',
-      flags: 'g'
+      flags: 'g',
+      encoding: 'utf8',
     });
 
+    var fileOptions = {encoding: options.encoding};
 
     var log = function log(type, info) {
       var msgs = {
@@ -95,7 +97,7 @@ module.exports = function(grunt) {
 
       // Read file source.
       var fileInfo = {
-        file: grunt.file.read(filepath),
+        file: grunt.file.read(filepath, fileOptions),
         filePath: filepath,
         version: version,
         pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', options.flags)
@@ -114,7 +116,7 @@ module.exports = function(grunt) {
         } else {
           log('updated', fileInfo);
           newfile = fileInfo.file.replace(fileInfo.pattern, '$1' + version);
-          grunt.file.write(filepath, newfile);
+          grunt.file.write(filepath, newfile, fileOptions);
         }
       }
     });
