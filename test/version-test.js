@@ -1,6 +1,6 @@
 'use strict';
-var semver = require('semver');
 
+var semver = require('semver');
 var grunt = require('grunt');
 
 /*
@@ -29,11 +29,13 @@ exports.version = {
   },
   prefixOption: function(test) {
     var files = grunt.config('version.prefixOption.src');
+
     test.expect(files.length);
 
     files.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '0.1.0', 'Updates the file with version.');
@@ -42,11 +44,13 @@ exports.version = {
   },
   patch: function(test) {
     var files = grunt.config('version.patch.src');
+
     test.expect(files.length);
 
     files.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '0.1.1', 'Increments the version and updates the file.');
@@ -58,7 +62,8 @@ exports.version = {
 
     var file = grunt.config('version.prerelease.src');
     var content = grunt.file.read(file);
-    var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d[\-\+a-zA-Z0-9\.]*)/.exec(content);
+    var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d[-+a-zA-Z0-9.]*)/.exec(content);
+
     actual = actual && actual[1];
 
     test.expect(1);
@@ -68,11 +73,13 @@ exports.version = {
   },
   minor: function(test) {
     var files = grunt.config('version.minor.src');
+
     test.expect(files.length);
 
     files.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"](\d\.\d\.\d)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '1.3.0', 'Increments the minor version and updates the file.');
@@ -83,6 +90,7 @@ exports.version = {
   minorwitharg: function(test) {
     test.expect(1);
     var pkg = grunt.file.readJSON('tmp/test-pkg-arg.json');
+
     test.equal(pkg.version, '1.3.0', 'Increments the minor version and updates the file.');
     test.done();
   },
@@ -90,16 +98,17 @@ exports.version = {
     test.expect(4);
     var patchedFiles = [
       'tmp/exclude-some/123.js',
-      'tmp/exclude-some/testing.js'
+      'tmp/exclude-some/testing.js',
     ];
     var excludedFiles = [
       'tmp/exclude-some/no-123.js',
-      'tmp/exclude-some/no-testing.js'
+      'tmp/exclude-some/no-testing.js',
     ];
 
     patchedFiles.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '1.2.4', 'Increments the version and updates the file.');
@@ -108,6 +117,7 @@ exports.version = {
     excludedFiles.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '1.2.3', 'Ignores the file; version remains the same.');
@@ -125,11 +135,13 @@ exports.version = {
   },
   prereleaseBuild: function(test) {
     var files = grunt.config('version.prereleaseBuild.src');
+
     test.expect(files.length);
 
     files.forEach(function(file) {
       var content = grunt.file.read(file);
       var actual = /version['"]?\s*[:=] ['"]([^'"]+)/.exec(content);
+
       actual = actual && actual[1];
 
       test.equal(actual, '1.0.0-beta.2', 'Increments the version and updates the file.');
@@ -141,11 +153,12 @@ exports.version = {
     var file = grunt.config('version.flags.src');
     var content = grunt.file.read(file);
     var actual = /vErSIoN = '(\d\.\d\.\d)/.exec(content);
+
     actual = actual && actual[1];
 
     test.expect(1);
     test.equal(actual, '1.2.4', 'Case insensitive version update and updates the file');
 
     test.done();
-  }
+  },
 };

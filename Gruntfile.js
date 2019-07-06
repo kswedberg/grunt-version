@@ -16,17 +16,14 @@ module.exports = function(grunt) {
   // Project configuration.
   var gruntConfig = {
     pkg: grunt.file.readJSON('package.json'),
-    jshint: {
+    eslint: {
       all: [
         'Gruntfile.js',
         'tasks/*.js',
         '<%= nodeunit.tests %>',
       ],
-      options: {
-        jshintrc: '.jshintrc',
-      },
-    },
 
+    },
     // Before generating any new files, remove any previously-created files.
     clean: {
       tests: ['tmp'],
@@ -38,33 +35,33 @@ module.exports = function(grunt) {
           src: ['**'],
           dest: 'tmp/',
           filter: 'isFile',
-          expand: true
-        }]
-      }
+          expand: true,
+        }],
+      },
     },
 
     version: {
       options: {
-        pkg: grunt.file.readJSON('test/fixtures/test-package.json')
+        pkg: grunt.file.readJSON('test/fixtures/test-package.json'),
       },
       // Not for testing. Run with grunt version:v:[release]
       v: {
         options: {
-          pkg: 'package.json'
+          pkg: 'package.json',
         },
         src: [
-          'package.json'
-        ]
+          'package.json',
+        ],
       },
       allFiles: {
 
-      }
+      },
     },
 
     // Unit tests.
     nodeunit: {
       tests: ['test/version-test.js'],
-      allFiles: ['test/version-all-test.js']
+      allFiles: ['test/version-all-test.js'],
     },
 
   };
@@ -77,7 +74,8 @@ module.exports = function(grunt) {
   grunt.loadTasks('tasks');
 
   // These plugins provide necessary tasks.
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  // grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-nodeunit');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -87,7 +85,7 @@ module.exports = function(grunt) {
 
   var testTasks = [
     'clean',
-    'copy'
+    'copy',
   ];
   var testTarget;
 
@@ -106,7 +104,7 @@ module.exports = function(grunt) {
       'clean',
       'copy',
       'version::minor',
-      'nodeunit:allFiles'
+      'nodeunit:allFiles',
     ];
 
     grunt.config.set('version', versionConfig);
@@ -119,6 +117,6 @@ module.exports = function(grunt) {
   grunt.registerTask('test', testTasks);
 
   // By default, lint and run all tests.
-  grunt.registerTask('default', ['jshint', 'test']);
+  grunt.registerTask('default', ['eslint', 'test']);
 
 };

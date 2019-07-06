@@ -21,7 +21,7 @@ module.exports = function(grunt) {
       // If pkg is the same string as previous target, and we're looping through targets,
       // make sure we're sticking with previous version so we don't keep incrementing subsequent targets
       if (typeof pkg === 'string') {
-        if ( pkgs[i] && pkg === pkgs[i].pkg && /^version::/.test(process.argv[2]) ) {
+        if (pkgs[i] && pkg === pkgs[i].pkg && /^version::/.test(process.argv[2])) {
           pkg = pkgs[i];
         } else {
           pkg = grunt.file.readJSON(pkg, {encoding: opts.encoding});
@@ -31,7 +31,7 @@ module.exports = function(grunt) {
       pkgs.push({
         // Store the pre-modified pkg, but the modified version
         pkg: opts.pkg,
-        version: pkg.version
+        version: pkg.version,
       });
 
       return pkg.version;
@@ -55,26 +55,27 @@ module.exports = function(grunt) {
 
     var log = function log(type, info) {
       var msgs = {
-        notFound: [ 'Pattern not found in file', 'Pattern: ' + info.pattern ],
-        skipped: [ 'File skipped.',  'Current version and new version are equal: ' + info.version ],
+        notFound: ['Pattern not found in file', 'Pattern: ' + info.pattern],
+        skipped: ['File skipped.', 'Current version and new version are equal: ' + info.version],
         updated: [
           'File updated.',
-          'Old version: ' + info.fileVersion + '. New version: ' + info.version + '.'
-        ]
+          'Old version: ' + info.fileVersion + '. New version: ' + info.version + '.',
+        ],
       };
-      grunt.log.subhead( msgs[type][0] );
+
+      grunt.log.subhead(msgs[type][0]);
       grunt.log.writeln('Path: ' + info.filePath);
-      grunt.log.writeln( msgs[type][1] );
+      grunt.log.writeln(msgs[type][1]);
     };
 
-    var newVersion,
-        version = getVersion(options),
-        release = this.args && this.args[0] || options.release,
-        semver = require('semver'),
-        bump = /major|minor|patch|prerelease/.test(release),
-        literal = semver.valid(release);
+    var newVersion;
+    var version = getVersion(options);
+    var release = this.args && this.args[0] || options.release;
+    var semver = require('semver');
+    var bump = /major|minor|patch|prerelease/.test(release);
+    var literal = semver.valid(release);
 
-    if ( bump && semver.valid(version) ) {
+    if (bump && semver.valid(version)) {
       if (typeof options.prereleaseIdentifier !== 'undefined') {
         newVersion = semver.inc(version, release, options.prereleaseIdentifier);
       } else {
@@ -92,6 +93,7 @@ module.exports = function(grunt) {
       // Warn if a source file/pattern was invalid.
       if (!grunt.file.exists(filepath)) {
         grunt.log.error('Source file "' + filepath + '" not found.');
+
         return '';
       }
 
@@ -100,11 +102,11 @@ module.exports = function(grunt) {
         file: grunt.file.read(filepath, fileOptions),
         filePath: filepath,
         version: version,
-        pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', options.flags)
+        pattern: new RegExp('(' + options.prefix + ')(' + options.replace + ')', options.flags),
       };
 
-      var newfile,
-          matches = fileInfo.pattern.exec(fileInfo.file);
+      var newfile;
+      var matches = fileInfo.pattern.exec(fileInfo.file);
 
       if (!matches) {
         log('notFound', fileInfo);
