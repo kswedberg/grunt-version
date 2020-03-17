@@ -3,7 +3,8 @@
 [Grunt][grunt] task to handle versioning of a project.
 
 ## Getting Started
-_Requires grunt >=0.4.2. If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide._
+
+_Requires grunt >=1.1.0. If you haven't used [grunt][] before, be sure to check out the [Getting Started][] guide._
 
 From the same directory as your project's [Gruntfile][Getting Started] and [package.json][], install this plugin by running the following command:
 
@@ -26,6 +27,7 @@ If the plugin has been installed correctly, running `grunt --help` at the comman
 ## The "version" task
 
 ### Overview
+
 In your project's Gruntfile, add a section named `version` to the data object passed into `grunt.initConfig()`.
 
 ```js
@@ -44,6 +46,7 @@ grunt.initConfig({
 ### Options
 
 #### options.pkg
+
 Type: `String|Object`
 Default value: `'package.json'`
 
@@ -53,6 +56,7 @@ This package file is where your "canonical" version should be set, in a `"versio
 
 
 #### options.prefix
+
 Type: `String`
 Default value: `'[^\\-]version[\'"]?\\s*[:=]\\s*[\'"]'`
 
@@ -74,30 +78,35 @@ grunt.initConfig({
 ```
 
 #### options.replace
+
 Type: `String`
 Default value: `'[0-9a-zA-Z\\-_\\+\\.]+'`
 
 A string value representing a regular expression to match the version number (immediately following the `options.prefix` text).
 
 #### options.flags
+
 Type: `String`
 Default value: `'g'`
 
 A string value representing one or more regular expression flags (e.g. `'i'`, `'ig'`).
 
 #### options.release
+
 Type: `String`
 Default value: `''`
 
 A string value representing one of the **semver 2.x** release types (`'major'`, `'minor'`, `'patch'`, or `'prerelease'`) used to increment the value of the specified package version. See [node-semver](https://github.com/isaacs/node-semver) for more information about release incrementing. The value may also be a literal semver-valid release (for example, '1.3.2').
 
 #### options.prereleaseIdentifier
+
 Type: `String`
 Default value: `''`
 
 A string value representing a prefix for the prerelease version (e.g., `'dev'`,`'alpha'`,`'beta'`). Setting this value to `dev` would prerelease-increment a version of 1.2.3 to 1.2.3-dev.0 instead of 1.2.3-0.
 
 #### options.encoding
+
 Type: `String`
 Default value: `'utf8'`
 
@@ -106,6 +115,7 @@ A string value representing the encoding to be used for reading and writing file
 ### Usage Examples
 
 #### Default Options
+
 In this example, the default options are used to update the version in `src/testing.js` based on the `version` property set in a `package.json` file located in the same directory as your `Gruntfile.js`. So if the version property in `package.json` is `"0.1.2"`, and the `src/testing.js` file has the content `var version = '0';`, that content would change to `var version = '0.1.2';`
 
 ```js
@@ -136,18 +146,19 @@ grunt.initConfig({
 Then, from the command line (designated by the `$`, so don't include that if you're copying the code below), you can bump the patch version, for example:
 
 ```bash
-$  grunt version:project:patch
+grunt version:project:patch
 ```
 
 You can also skip the target name:
 
 ```bash
-$  grunt version::minor
+grunt version::minor
 ```
 
 In this example, it bumps the minor version in the files listed within the "project" target, even though "project" is not identified explicitly between the two `:`. Note that if the version config includes more than one target, the example would update the files listed within *every* target.
 
 #### Custom Options
+
 In this example, custom options are used.
 
 ```js
@@ -173,4 +184,5 @@ grunt.initConfig({
 ```
 
 ## Contributing
+
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [grunt][].
