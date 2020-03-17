@@ -29,14 +29,14 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "0.4.5 - 1",
+    "grunt": "^1.1.0",
     "semver": "^6.3.0"
   },
   "devDependencies": {
     "eslint-config-kswedberg": "^3.1.1",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-nodeunit": "^2.0.0",
+    "grunt-contrib-nodeunit": "^2.1.0",
     "grunt-eslint": "^22.0.0"
   },
   "keywords": [
