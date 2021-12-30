@@ -23,21 +23,21 @@
   ],
   "main": "Gruntfile.js",
   "engines": {
-    "node": ">= 0.8.0"
+    "node": ">=10"
   },
   "scripts": {
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "^1.1.0",
-    "semver": "^6.3.0"
+    "grunt": "^1.4.1",
+    "semver": "^7.3.5"
   },
   "devDependencies": {
-    "eslint-config-kswedberg": "^3.1.1",
+    "eslint-config-kswedberg": "^5.1.1",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-nodeunit": "^2.1.0",
-    "grunt-eslint": "^22.0.0"
+    "grunt-contrib-nodeunit": "^4.0.0",
+    "grunt-eslint": "^24.0.0"
   },
   "keywords": [
     "gruntplugin",
