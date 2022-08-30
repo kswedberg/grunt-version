@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "eslint-config-kswedberg": "^5.1.1",
-    "grunt-contrib-clean": "^2.0.0",
+    "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-copy": "^1.0.0",
     "grunt-contrib-nodeunit": "^4.0.0",
     "grunt-eslint": "^24.0.0"
