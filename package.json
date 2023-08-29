@@ -30,7 +30,7 @@
   },
   "dependencies": {
     "grunt": "^1.4.1",
-    "semver": "^7.3.5"
+    "semver": "^7.5.4"
   },
   "devDependencies": {
     "eslint-config-kswedberg": "^5.1.1",
