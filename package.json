@@ -29,15 +29,15 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "grunt": "^1.4.1",
+    "grunt": "^1.6.1",
     "semver": "^7.5.4"
   },
   "devDependencies": {
-    "eslint-config-kswedberg": "^5.1.1",
+    "eslint-config-kswedberg": "^5.4.1",
     "grunt-contrib-clean": "^2.0.1",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-nodeunit": "^4.0.0",
-    "grunt-eslint": "^24.0.0"
+    "grunt-contrib-nodeunit": "^5.0.0",
+    "grunt-eslint": "^24.3.0"
   },
   "keywords": [
     "gruntplugin",
